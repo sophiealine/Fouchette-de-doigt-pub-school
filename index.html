@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>La Fourchette de Doigt — L'art de manger sans effort</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --cream: #F5F0E8;
+      --terracotta: #C4553A;
+      --terracotta-light: #E07055;
+      --dark: #1C1612;
+      --brown: #6B4226;
+      --sand: #E8D9C0;
+      --gold: #D4A853;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--cream);
+      color: var(--dark);
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.2rem 4rem;
+      background: rgba(245, 240, 232, 0.92);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(196, 85, 58, 0.15);
+    }
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem; font-weight: 700;
+      color: var(--terracotta);
+      letter-spacing: 0.02em;
+    }
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a {
+      text-decoration: none; color: var(--dark);
+      font-size: 0.85rem; font-weight: 500;
+      letter-spacing: 0.05em; text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--terracotta); }
+    .nav-cta {
+      background: var(--terracotta); color: #fff !important;
+      padding: 0.6rem 1.4rem; border-radius: 2rem;
+    }
+    .nav-cta:hover { background: var(--terracotta-light); color: #fff !important; }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: grid; grid-template-columns: 1fr 1fr;
+      align-items: center;
+      padding: 7rem 4rem 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; top: -100px; right: -100px;
+      width: 600px; height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(196,85,58,0.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-tag {
+      display: inline-block;
+      background: var(--terracotta); color: #fff;
+      font-size: 0.7rem; font-weight: 500; letter-spacing: 0.12em;
+      text-transform: uppercase; padding: 0.4rem 1rem; border-radius: 2rem;
+      margin-bottom: 1.5rem;
+      animation: fadeUp 0.6s ease both;
+    }
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3rem, 5vw, 5.5rem);
+      font-weight: 900; line-height: 1.05;
+      color: var(--dark);
+      margin-bottom: 1.5rem;
+      animation: fadeUp 0.7s 0.1s ease both;
+    }
+    .hero-title span { color: var(--terracotta); font-style: italic; }
+    .hero-tagline {
+      font-size: 1.1rem; font-weight: 300;
+      color: var(--brown); line-height: 1.6;
+      margin-bottom: 2.5rem; max-width: 440px;
+      animation: fadeUp 0.7s 0.2s ease both;
+    }
+    .hero-tagline em { font-style: italic; font-weight: 400; color: var(--terracotta); }
+    .hero-actions {
+      display: flex; align-items: center; gap: 1.5rem;
+      animation: fadeUp 0.7s 0.3s ease both;
+    }
+    .btn-primary {
+      background: var(--terracotta); color: #fff;
+      padding: 1rem 2.2rem; border-radius: 3rem;
+      font-size: 0.95rem; font-weight: 500;
+      text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem;
+      transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+      box-shadow: 0 4px 20px rgba(196,85,58,0.3);
+      cursor: pointer; border: none;
+    }
+    .btn-primary:hover {
+      background: var(--terracotta-light);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(196,85,58,0.4);
+    }
+    .btn-secondary {
+      color: var(--dark); font-size: 0.9rem; font-weight: 500;
+      text-decoration: none; display: inline-flex; align-items: center; gap: 0.4rem;
+      border-bottom: 1px solid var(--dark); padding-bottom: 2px;
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .btn-secondary:hover { color: var(--terracotta); border-color: var(--terracotta); }
+    .price-badge {
+      display: inline-flex; align-items: baseline; gap: 0.2rem;
+      font-family: 'Playfair Display', serif;
+    }
+    .price-badge .price-num { font-size: 3rem; font-weight: 700; color: var(--terracotta); }
+    .price-badge .price-label { font-size: 1rem; color: var(--brown); }
+
+    /* Hero visual */
+    .hero-visual {
+      display: flex; justify-content: center; align-items: center;
+      position: relative;
+      animation: fadeIn 1s 0.4s ease both;
+    }
+    .hero-plate {
+      width: 420px; height: 420px;
+      background: linear-gradient(135deg, var(--sand) 0%, #F0E6D0 100%);
+      border-radius: 50%;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      box-shadow: 0 30px 80px rgba(107,66,38,0.15), inset 0 1px 0 rgba(255,255,255,0.8);
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-plate::after {
+      content: '';
+      position: absolute; top: 20px; left: 20px; right: 20px; bottom: 20px;
+      border-radius: 50%;
+      border: 1px dashed rgba(196,85,58,0.25);
+    }
+    .fork-emoji { font-size: 7rem; margin-bottom: 0.5rem; animation: wiggle 3s ease-in-out infinite; }
+    .hero-plate-text {
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem; font-style: italic; color: var(--brown);
+      opacity: 0.7;
+    }
+    .floating-pill {
+      position: absolute;
+      background: #fff;
+      border-radius: 2rem;
+      padding: 0.7rem 1.2rem;
+      box-shadow: 0 8px 30px rgba(107,66,38,0.12);
+      display: flex; align-items: center; gap: 0.6rem;
+      font-size: 0.8rem; font-weight: 500; color: var(--dark);
+      animation: float 4s ease-in-out infinite;
+    }
+    .floating-pill.p1 { top: 10%; right: 5%; animation-delay: 0s; }
+    .floating-pill.p2 { bottom: 15%; right: 0; animation-delay: 1.5s; }
+    .floating-pill.p3 { top: 50%; left: 0; animation-delay: 0.8s; }
+    .pill-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--terracotta); }
+
+    /* ── STATS STRIP ── */
+    .stats {
+      background: var(--dark);
+      padding: 3.5rem 4rem;
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .stats::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: repeating-linear-gradient(
+        90deg,
+        transparent, transparent 49px,
+        rgba(255,255,255,0.03) 50px
+      );
+    }
+    .stat-item { text-align: center; position: relative; z-index: 1; }
+    .stat-item + .stat-item {
+      border-left: 1px solid rgba(255,255,255,0.1);
+    }
+    .stat-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 3.5rem; font-weight: 900; color: var(--terracotta);
+      line-height: 1;
+      display: block; margin-bottom: 0.4rem;
+    }
+    .stat-label {
+      font-size: 0.85rem; color: rgba(245,240,232,0.6);
+      font-weight: 300; letter-spacing: 0.04em;
+      line-height: 1.4;
+    }
+
+    /* ── CONCEPT ── */
+    .concept {
+      padding: 7rem 4rem;
+      display: grid; grid-template-columns: 1fr 1.2fr;
+      gap: 6rem; align-items: center;
+    }
+    .section-label {
+      font-size: 0.72rem; font-weight: 500; letter-spacing: 0.18em;
+      text-transform: uppercase; color: var(--terracotta);
+      margin-bottom: 1rem; display: block;
+    }
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 3vw, 3rem); font-weight: 700; line-height: 1.15;
+      color: var(--dark); margin-bottom: 1.5rem;
+    }
+    .section-body { font-size: 1rem; font-weight: 300; color: var(--brown); line-height: 1.8; }
+    .features-grid { display: grid; gap: 1.2rem; margin-top: 2rem; }
+    .feature-item {
+      display: flex; align-items: flex-start; gap: 1rem;
+      background: #fff; padding: 1.2rem 1.5rem; border-radius: 1rem;
+      border: 1px solid rgba(196,85,58,0.1);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .feature-item:hover { transform: translateX(6px); box-shadow: 0 4px 20px rgba(196,85,58,0.1); }
+    .feature-icon {
+      width: 40px; height: 40px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--terracotta), var(--terracotta-light));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem; flex-shrink: 0;
+    }
+    .feature-text h4 { font-size: 0.9rem; font-weight: 500; margin-bottom: 0.2rem; }
+    .feature-text p { font-size: 0.82rem; font-weight: 300; color: var(--brown); line-height: 1.5; }
+    .concept-visual {
+      background: linear-gradient(135deg, var(--sand), #EDE0CA);
+      border-radius: 2rem; padding: 3rem;
+      display: flex; flex-direction: column; gap: 1.5rem;
+      box-shadow: 0 20px 60px rgba(107,66,38,0.12);
+    }
+    .cv-row {
+      display: flex; align-items: center; gap: 1.2rem;
+      background: rgba(255,255,255,0.7); padding: 1rem 1.4rem;
+      border-radius: 0.8rem; backdrop-filter: blur(10px);
+    }
+    .cv-number {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.5rem; font-weight: 900; color: var(--terracotta);
+      opacity: 0.25; line-height: 1; min-width: 3rem;
+    }
+    .cv-text { font-size: 0.9rem; font-weight: 400; color: var(--dark); line-height: 1.4; }
+
+    /* ── PRODUCT CARD ── */
+    .product-section {
+      padding: 5rem 4rem;
+      background: var(--dark);
+      position: relative; overflow: hidden;
+    }
+    .product-section::before {
+      content: '';
+      position: absolute; bottom: -200px; left: -200px;
+      width: 600px; height: 600px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(196,85,58,0.15) 0%, transparent 60%);
+    }
+    .product-section .section-label { color: var(--gold); }
+    .product-section .section-title { color: #fff; }
+    .product-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 4rem; align-items: center; margin-top: 3rem;
+    }
+    .product-card {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 2rem; padding: 3rem;
+      position: relative; z-index: 1;
+    }
+    .product-card-emoji { font-size: 5rem; display: block; margin-bottom: 1.5rem; }
+    .product-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem; font-weight: 700; color: #fff;
+      margin-bottom: 0.5rem;
+    }
+    .product-desc { font-size: 0.9rem; font-weight: 300; color: rgba(245,240,232,0.6); line-height: 1.7; margin-bottom: 2rem; }
+    .product-price-row {
+      display: flex; align-items: baseline; gap: 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+    .product-price {
+      font-family: 'Playfair Display', serif;
+      font-size: 3.5rem; font-weight: 900; color: var(--terracotta);
+      line-height: 1;
+    }
+    .product-currency { font-size: 1.5rem; color: var(--terracotta); align-self: flex-start; margin-top: 0.5rem; }
+    .product-only { font-size: 0.8rem; color: rgba(245,240,232,0.4); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 2rem; }
+    .add-to-cart {
+      width: 100%; padding: 1.1rem;
+      background: var(--terracotta); color: #fff;
+      border: none; border-radius: 2rem; cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 1rem; font-weight: 500;
+      transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 4px 20px rgba(196,85,58,0.4);
+    }
+    .add-to-cart:hover {
+      background: var(--terracotta-light);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(196,85,58,0.5);
+    }
+    .delivery-badge {
+      margin-top: 1rem; text-align: center;
+      font-size: 0.8rem; color: rgba(245,240,232,0.4);
+    }
+    .delivery-badge span { color: #6BCB77; font-weight: 500; }
+    .benefits-list { list-style: none; display: flex; flex-direction: column; gap: 1.2rem; position: relative; z-index: 1; }
+    .benefits-list li {
+      display: flex; align-items: center; gap: 1rem;
+      color: rgba(245,240,232,0.85); font-size: 0.95rem; font-weight: 300;
+    }
+    .benefits-list .b-icon {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: rgba(196,85,58,0.2);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem; flex-shrink: 0;
+    }
+
+    /* ── TESTIMONIALS ── */
+    .testimonials { padding: 7rem 4rem; background: var(--cream); }
+    .testimonials-header {
+      text-align: center; margin-bottom: 4rem;
+    }
+    .testimonials-header .section-title { margin-bottom: 0.5rem; }
+    .reviews-count {
+      font-size: 0.9rem; color: var(--brown); font-weight: 300;
+    }
+    .reviews-count strong { color: var(--terracotta); font-weight: 600; }
+    .reviews-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+    .review-card {
+      background: #fff; border-radius: 1.5rem; padding: 2rem;
+      border: 1px solid rgba(196,85,58,0.08);
+      box-shadow: 0 4px 20px rgba(107,66,38,0.06);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .review-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(107,66,38,0.12); }
+    .review-stars { font-size: 1rem; margin-bottom: 1rem; }
+    .review-text {
+      font-size: 0.9rem; font-weight: 300; color: var(--brown);
+      line-height: 1.7; font-style: italic; margin-bottom: 1.5rem;
+    }
+    .review-author { font-size: 0.82rem; font-weight: 500; color: var(--dark); }
+
+    /* ── HOW IT WORKS ── */
+    .how {
+      padding: 7rem 4rem;
+      background: var(--sand);
+    }
+    .how-header { text-align: center; margin-bottom: 4rem; }
+    .steps-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
+    .step-card {
+      text-align: center;
+      padding: 2.5rem 2rem;
+      background: var(--cream);
+      border-radius: 1.5rem;
+      position: relative;
+    }
+    .step-card::after {
+      content: '→';
+      position: absolute; right: -1.2rem; top: 50%;
+      transform: translateY(-50%);
+      font-size: 1.5rem; color: var(--terracotta);
+      font-weight: 300;
+    }
+    .step-card:last-child::after { display: none; }
+    .step-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 0.8rem; color: var(--terracotta);
+      letter-spacing: 0.12em; text-transform: uppercase;
+      margin-bottom: 1rem; display: block; font-weight: 600;
+    }
+    .step-emoji { font-size: 3rem; display: block; margin-bottom: 1rem; }
+    .step-title { font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 700; margin-bottom: 0.5rem; }
+    .step-desc { font-size: 0.85rem; font-weight: 300; color: var(--brown); line-height: 1.6; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--dark); padding: 4rem;
+      display: grid; grid-template-columns: 1fr 1fr 1fr;
+      gap: 3rem; align-items: start;
+    }
+    .footer-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem; font-weight: 700; color: var(--terracotta);
+      margin-bottom: 0.8rem;
+    }
+    .footer-tagline {
+      font-size: 0.82rem; font-weight: 300;
+      color: rgba(245,240,232,0.4); font-style: italic; line-height: 1.5;
+    }
+    .footer-links h4 {
+      font-size: 0.72rem; letter-spacing: 0.15em; text-transform: uppercase;
+      color: rgba(245,240,232,0.3); margin-bottom: 1rem; font-weight: 500;
+    }
+    .footer-links ul { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
+    .footer-links a {
+      font-size: 0.85rem; font-weight: 300; color: rgba(245,240,232,0.6);
+      text-decoration: none; transition: color 0.2s;
+    }
+    .footer-links a:hover { color: var(--terracotta); }
+    .footer-bottom {
+      background: var(--dark);
+      border-top: 1px solid rgba(255,255,255,0.06);
+      padding: 1.5rem 4rem;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .footer-bottom p { font-size: 0.78rem; color: rgba(245,240,232,0.25); font-weight: 300; }
+
+    /* ── TOAST ── */
+    #toast {
+      position: fixed; bottom: 2rem; right: 2rem; z-index: 999;
+      background: var(--dark); color: #fff;
+      padding: 1rem 1.8rem; border-radius: 1rem;
+      font-size: 0.9rem; font-weight: 500;
+      display: flex; align-items: center; gap: 0.7rem;
+      transform: translateY(100px); opacity: 0;
+      transition: transform 0.4s ease, opacity 0.4s ease;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+    }
+    #toast.show { transform: translateY(0); opacity: 1; }
+
+    /* ── QUANTITY ── */
+    .quantity-row {
+      display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem;
+    }
+    .qty-label { font-size: 0.8rem; color: rgba(245,240,232,0.5); text-transform: uppercase; letter-spacing: 0.1em; }
+    .qty-control {
+      display: flex; align-items: center; gap: 0;
+      background: rgba(255,255,255,0.08); border-radius: 2rem; overflow: hidden;
+    }
+    .qty-btn {
+      width: 36px; height: 36px; border: none; cursor: pointer;
+      background: transparent; color: #fff; font-size: 1.2rem;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.2s;
+    }
+    .qty-btn:hover { background: rgba(196,85,58,0.3); }
+    .qty-num {
+      min-width: 36px; text-align: center;
+      color: #fff; font-size: 0.95rem; font-weight: 500;
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; } to { opacity: 1; }
+    }
+    @keyframes wiggle {
+      0%, 100% { transform: rotate(-5deg); }
+      50% { transform: rotate(5deg); }
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
+    /* ── SCROLL REVEAL ── */
+    .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    @media (max-width: 900px) {
+      nav { padding: 1rem 2rem; }
+      .nav-links { display: none; }
+      .hero { grid-template-columns: 1fr; padding: 7rem 2rem 4rem; }
+      .hero-visual { display: none; }
+      .stats { grid-template-columns: 1fr; padding: 3rem 2rem; }
+      .stats .stat-item + .stat-item { border-left: none; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 2rem; }
+      .concept { grid-template-columns: 1fr; padding: 4rem 2rem; gap: 3rem; }
+      .product-section { padding: 4rem 2rem; }
+      .product-grid { grid-template-columns: 1fr; gap: 2rem; }
+      .testimonials { padding: 4rem 2rem; }
+      .reviews-grid { grid-template-columns: 1fr; }
+      .how { padding: 4rem 2rem; }
+      .steps-grid { grid-template-columns: 1fr; }
+      .step-card::after { display: none; }
+      footer { grid-template-columns: 1fr; padding: 3rem 2rem; }
+      .footer-bottom { flex-direction: column; gap: 0.5rem; padding: 1.5rem 2rem; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-logo">🍴 La Fourchette de Doigt</div>
+    <ul class="nav-links">
+      <li><a href="#concept">Concept</a></li>
+      <li><a href="#produit">Produit</a></li>
+      <li><a href="#avis">Avis</a></li>
+      <li><a href="#produit" class="nav-cta">Commander</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-content">
+      <span class="hero-tag">✨ Nouveau · Exclusivité en ligne</span>
+      <h1 class="hero-title">La <span>Fourchette</span><br>de Doigt</h1>
+      <p class="hero-tagline">
+        <em>« Parce que lever le bras, c'est déjà trop. »</em><br><br>
+        L'accessoire culinaire révolutionnaire qui se fixe directement sur votre index pour une expérience apéritive incomparable.
+      </p>
+      <div class="hero-actions">
+        <a href="#produit" class="btn-primary">🛒 Commander — 2,05$</a>
+        <a href="#concept" class="btn-secondary">Découvrir ↓</a>
+      </div>
+    </div>
+
+    <div class="hero-visual">
+      <div class="hero-plate">
+        <span class="fork-emoji">🍴</span>
+        <span class="hero-plate-text">Le futur de l'apéro</span>
+      </div>
+      <div class="floating-pill p1"><span class="pill-dot"></span>5 millions vendus</div>
+      <div class="floating-pill p2"><span class="pill-dot"></span>Livraison 24h ⚡</div>
+      <div class="floating-pill p3"><span class="pill-dot"></span>Réutilisable ♻️</div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <section class="stats">
+    <div class="stat-item reveal">
+      <span class="stat-num">5M+</span>
+      <span class="stat-label">fourchettes de doigt<br>déjà vendues</span>
+    </div>
+    <div class="stat-item reveal">
+      <span class="stat-num">−40%</span>
+      <span class="stat-label">d'utilisation des fourchettes<br>ordinaires parmi nos clients</span>
+    </div>
+    <div class="stat-item reveal">
+      <span class="stat-num">+70%</span>
+      <span class="stat-label">de fourchettes de doigt<br>sollicitées cette année</span>
+    </div>
+  </section>
+
+  <!-- CONCEPT -->
+  <section class="concept" id="concept">
+    <div>
+      <span class="section-label reveal">01 — L'idée</span>
+      <h2 class="section-title reveal">Rendre l'apéro plus <em style="font-style:italic;color:var(--terracotta)">ludique</em> & original</h2>
+      <p class="section-body reveal">
+        La fourchette de doigt est née d'une envie simple : transformer l'expérience des cocktails apéritifs en quelque chose de véritablement unique. Finis les gestes maladroits, les mains qui se salissent et les bras qui se fatiguent.
+      </p>
+      <div class="features-grid">
+        <div class="feature-item reveal">
+          <div class="feature-icon">🖐️</div>
+          <div class="feature-text">
+            <h4>Anneau ajustable</h4>
+            <p>S'adapte à tous les doigts, fixation directement sur l'index.</p>
+          </div>
+        </div>
+        <div class="feature-item reveal">
+          <div class="feature-icon">🍽️</div>
+          <div class="feature-text">
+            <h4>Petite fourchette intégrée</h4>
+            <p>Fixée à l'avant pour piquer vos amuse-bouches avec précision.</p>
+          </div>
+        </div>
+        <div class="feature-item reveal">
+          <div class="feature-icon">✨</div>
+          <div class="feature-text">
+            <h4>Matériau résistant & lavable</h4>
+            <p>Hygiénique, durable et réutilisable à l'infini.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="concept-visual reveal">
+      <div class="cv-row">
+        <span class="cv-number">01</span>
+        <span class="cv-text">Glissez l'anneau ajustable sur votre index</span>
+      </div>
+      <div class="cv-row">
+        <span class="cv-number">02</span>
+        <span class="cv-text">La fourchette se positionne naturellement vers l'avant</span>
+      </div>
+      <div class="cv-row">
+        <span class="cv-number">03</span>
+        <span class="cv-text">Piquez, dégustez — sans lever le bras</span>
+      </div>
+      <div class="cv-row">
+        <span class="cv-number">04</span>
+        <span class="cv-text">Rincez et recommencez ♻️</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRODUIT -->
+  <section class="product-section" id="produit">
+    <span class="section-label reveal">04 — Notre prix</span>
+    <h2 class="section-title reveal">Simple. Accessible. Indispensable.</h2>
+    <div class="product-grid">
+      <div class="product-card reveal">
+        <span class="product-card-emoji">🍴</span>
+        <div class="product-name">La Fourchette de Doigt</div>
+        <p class="product-desc">
+          L'accessoire apéritif que vous n'aviez pas prévu d'acheter — mais dont vous ne pourrez plus vous passer. Élégante, pratique, livrable en 24h.
+        </p>
+        <div class="product-price-row">
+          <span class="product-currency">$</span>
+          <span class="product-price">2</span>
+          <span style="font-family:'Playfair Display',serif;font-size:2rem;color:var(--terracotta);align-self:flex-end;margin-bottom:0.3rem">,05</span>
+        </div>
+        <p class="product-only">seulement · livraison incluse</p>
+        <div class="quantity-row">
+          <span class="qty-label">Qté</span>
+          <div class="qty-control">
+            <button class="qty-btn" onclick="changeQty(-1)">−</button>
+            <span class="qty-num" id="qty">1</span>
+            <button class="qty-btn" onclick="changeQty(1)">+</button>
+          </div>
+        </div>
+        <button class="add-to-cart" onclick="addToCart()">🛒 Ajouter au panier</button>
+        <p class="delivery-badge"><span>⚡ Livraison en 24h</span> · Commande 100% en ligne</p>
+      </div>
+      <ul class="benefits-list">
+        <li class="reveal"><span class="b-icon">♻️</span>Réutilisable — un achat, pour toujours</li>
+        <li class="reveal"><span class="b-icon">🤲</span>Vos mains restent propres en toute circonstance</li>
+        <li class="reveal"><span class="b-icon">💪</span>Confort et stabilité optimaux</li>
+        <li class="reveal"><span class="b-icon">🎒</span>Discrète et emportable partout</li>
+        <li class="reveal"><span class="b-icon">🚀</span>Livraison express sous 24h</li>
+        <li class="reveal"><span class="b-icon">🌐</span>Commande 100% en ligne, simple et sécurisée</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="how">
+    <div class="how-header">
+      <span class="section-label reveal">05 — Utilisation</span>
+      <h2 class="section-title reveal">En 3 gestes chrono</h2>
+    </div>
+    <div class="steps-grid">
+      <div class="step-card reveal">
+        <span class="step-num">Étape 01</span>
+        <span class="step-emoji">💍</span>
+        <h3 class="step-title">Enfilez</h3>
+        <p class="step-desc">Glissez l'anneau ajustable sur votre index. Ça prend 2 secondes, chrono en main.</p>
+      </div>
+      <div class="step-card reveal">
+        <span class="step-num">Étape 02</span>
+        <span class="step-emoji">🍢</span>
+        <h3 class="step-title">Piquez</h3>
+        <p class="step-desc">La fourchette est déjà positionnée. Tendez simplement le doigt vers votre amuse-bouche.</p>
+      </div>
+      <div class="step-card reveal">
+        <span class="step-num">Étape 03</span>
+        <span class="step-emoji">😌</span>
+        <h3 class="step-title">Savourez</h3>
+        <p class="step-desc">Mains propres, bras reposé, esprit libre. C'est ça, la révolution apéritive.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- AVIS -->
+  <section class="testimonials" id="avis">
+    <div class="testimonials-header">
+      <span class="section-label reveal">06 — Avis clients</span>
+      <h2 class="section-title reveal">Ils ont essayé.<br>Ils ne reviennent plus en arrière.</h2>
+      <p class="reviews-count reveal">Plus de <strong>5 millions de clients satisfaits</strong> dans le monde</p>
+    </div>
+    <div class="reviews-grid">
+      <div class="review-card reveal">
+        <div class="review-stars">⭐⭐⭐⭐⭐</div>
+        <p class="review-text">« Je n'aurais jamais cru qu'une fourchette sur mon doigt changerait ma vie, et pourtant. Mon bras me dit merci à chaque apéro. »</p>
+        <span class="review-author">— Marie-Claire T., Lyon</span>
+      </div>
+      <div class="review-card reveal">
+        <div class="review-stars">⭐⭐⭐⭐⭐</div>
+        <p class="review-text">« Concept génial, livraison ultra rapide. J'en ai commandé 6 pour toute la famille. Le prix est absolument imbattable. »</p>
+        <span class="review-author">— Julien P., Bordeaux</span>
+      </div>
+      <div class="review-card reveal">
+        <div class="review-stars">⭐⭐⭐⭐⭐</div>
+        <p class="review-text">« Mes invités n'en revenaient pas. On a passé la soirée à parler de la fourchette de doigt plutôt que de politique. Merci. »</p>
+        <span class="review-author">— Sophie B., Paris</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div>
+      <div class="footer-logo">🍴 La Fourchette de Doigt</div>
+      <p class="footer-tagline">« Parce que lever le bras,<br>c'est déjà trop. »</p>
+    </div>
+    <div class="footer-links">
+      <h4>Navigation</h4>
+      <ul>
+        <li><a href="#concept">Le concept</a></li>
+        <li><a href="#produit">Commander</a></li>
+        <li><a href="#avis">Avis clients</a></li>
+      </ul>
+    </div>
+    <div class="footer-links">
+      <h4>Informations</h4>
+      <ul>
+        <li><a href="#">Livraison 24h</a></li>
+        <li><a href="#">Politique de retour</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </div>
+  </footer>
+  <div class="footer-bottom">
+    <p>© 2025 La Fourchette de Doigt — Tous droits réservés</p>
+    <p>Vente exclusive en ligne · Livraison partout au Canada</p>
+  </div>
+
+  <!-- TOAST -->
+  <div id="toast">🎉 Ajouté au panier !</div>
+
+  <script>
+    // Quantity control
+    let qty = 1;
+    function changeQty(delta) {
+      qty = Math.max(1, Math.min(99, qty + delta));
+      document.getElementById('qty').textContent = qty;
+    }
+
+    // Add to cart
+    function addToCart() {
+      const toast = document.getElementById('toast');
+      toast.textContent = `🎉 ${qty} fourchette${qty > 1 ? 's' : ''} ajoutée${qty > 1 ? 's' : ''} au panier !`;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 3000);
+    }
+
+    // Scroll reveal
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((e, i) => {
+        if (e.isIntersecting) {
+          setTimeout(() => e.target.classList.add('visible'), i * 80);
+          observer.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
